@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 
+from django_filters.conf import settings
+
 from .local_setting import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
