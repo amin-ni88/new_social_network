@@ -5,13 +5,13 @@ from .models import Post, PostFile
 
 class PostFileInlineAdmin(admin.StackedInline):
     model = PostFile
-    fields = ('file', 'title', 'author')
+    fields = ('file', 'title', 'user')
     extra = 0
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'date', 'content')
+    list_display = ('title', 'date', 'content', 'user')
     list_filter = ('author', 'date')
     date_hierarchy = 'date'
     search_fields = ['title']

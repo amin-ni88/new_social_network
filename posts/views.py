@@ -9,8 +9,16 @@ from .serializers import PostSerializer
 
 class PostView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        posts = Post.objects.all()
+
+    def get(self, request, post_pk):
+        try:
+            post = Post.objects.get(pk=post_pk)
+
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PostSerializer(post, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = PostSerializer(data=request.data)
@@ -50,3 +58,31 @@ class PostView(APIView):
             post.title = post.title
             post.body = post.body
             post.save()
+
+
+class PostListView(APIView):
+    def get(self, request):
+        posts = Post.objects.filter(is_active=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+
+class PostDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, post_pk):
+        post = Post.objects.get(pk=post_pk)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
+
+class PostCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
