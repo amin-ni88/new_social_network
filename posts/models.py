@@ -39,14 +39,27 @@ class PostFile(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.PROTECT, related_name='comments')
+    text = models.TextField()
+    likes = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name='likes')
+    is_approved = models.BooleanField(default=False)
     content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name: str = 'Comment'
+        verbose_name_plural = 'Comments'
 
 
 class Like(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey(Post, on_delete=models.PROTECT, related_name='likes')
+    is_liked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name: str = 'Like'
+        verbose_name_plural = 'Likes'
+        unique_together = (('user', 'post'),)
