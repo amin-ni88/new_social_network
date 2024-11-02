@@ -1,7 +1,7 @@
 from datetime import timedelta
 from pathlib import Path
 
-from django_filters.conf import settings
+# from django_filters.conf import settings
 
 from .local_setting import *
 
@@ -19,18 +19,19 @@ SECRET_KEY = 'django-insecure-%$wtmp%v98#x7$_^#jd=l^r$9mv3en^djpd@=zww7)&)__p2sf
 # Application definition
 
 INSTALLED_APPS = [
-    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
 
+    # 'modeltranslation',
     'account',
-    'import_export',
+    # 'import_export',
     'countries_states_cities'
     'Posts'
 ]
@@ -70,7 +71,7 @@ WSGI_APPLICATION = 'social_network.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DB_NAME,
         'HOST': DB_HOST,
         'USER': DB_USER,
@@ -133,53 +134,22 @@ REST_FRAMEWORK = {
 
     )
 }
-LANGUAGES = [
-    ("en", "English"),
-    ("ko", "Korean"),
-    ("ja", "Japanese"),
-    ('zh-hans', 'Simplified Chinese'),  # 간체 중국어
-    ('zh-hant', 'Traditional Chinese'),  # 번체 중국어
-    ("es", "Spanish"),
-    ("ru", "Russian"),
-    ("ar", "Arabic"),
-    ("fr", "French"),
+# LANGUAGES = [
+    # ("en", "English"),
+    # ("ko", "Korean"),
+    # ("ja", "Japanese"),
+    # ('zh-hans', 'Simplified Chinese'),  # 간체 중국어
+    # ('zh-hant', 'Traditional Chinese'),  # 번체 중국어
+    # ("es", "Spanish"),
+    # ("ru", "Russian"),
+    # ("ar", "Arabic"),
+    # ("fr", "French"),
     # ("pe", "persion")
-]
+# ]
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
-    "ALGORITHM": "HS256",
-    # "SIGNING_KEY": settings.SECRET_KEY,
-    "VERIFYING_KEY": "",
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JSON_ENCODER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
-
-    "JTI_CLAIM": "jti",
-
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
