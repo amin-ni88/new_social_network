@@ -40,7 +40,7 @@ class PostFile(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.PROTECT, related_name='comments')
-    parent = models.ForeignKey(to='self', null=True, blank=True, on_delete=models.PROTECT, related_name='children')
+    # parent = models.ForeignKey(to='self', null=True, blank=True, on_delete=models.PROTECT, related_name='children')
     text = models.TextField()
     likes = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name='likes')
     is_approved = models.BooleanField(default=False)
@@ -63,6 +63,16 @@ class CommentReply(models.Model):
     class Meta:
         verbose_name: str = 'Comment Reply'
         verbose_name_plural = 'Comment Replies'
+        unique_together = (('user', 'comment'),)
+        ordering = ['created_at']
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name: str = 'Comment Like'
+        verbose_name_plural = 'Comment Likes'
         unique_together = (('user', 'comment'),)
         ordering = ['created_at']
 

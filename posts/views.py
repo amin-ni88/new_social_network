@@ -1,3 +1,4 @@
+from django.db.migrations import serializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -141,6 +142,54 @@ class CommentView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CommentCreateView(APIView):
+    def post(self, request, post_pk):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentDeleteView(APIView):
+    def put(self, request, comment_pk):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CommentUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    def put(self, request, comment_pk):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CommentRetrieveView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, comment_pk):
+        comment = Post.objects.get(pk=comment_pk)
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+
+class CommentListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, comment_pk):
+        comment = Post.objects.get(pk=comment_pk)
+        serializer = CommentSerializer(comment, many=True)
+    #     return Response(serializer.data)
+    # if serializer.is_valid(raise_exception=True):
+    #     serializer = CommentSerializer(serializer.data, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    # else:
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LikeView(APIView):
     permission_classes = [IsAuthenticated]
