@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post, Like, Comment
+from .models import Post, Like, Comment, CommentReply, CommentLike
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -40,6 +40,8 @@ class CommentReplySerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'post': {'read_only': True},
             'user': {'read_only': True},
+            'text': {'required': False}
+
         }
 
 

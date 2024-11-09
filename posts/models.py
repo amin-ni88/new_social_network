@@ -59,6 +59,7 @@ class CommentReply(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name: str = 'Comment Reply'
@@ -70,9 +71,24 @@ class CommentLike(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_liked = models.BooleanField(default=False)
+
     class Meta:
         verbose_name: str = 'Comment Like'
         verbose_name_plural = 'Comment Likes'
+        unique_together = (('user', 'comment'),)
+        ordering = ['created_at']
+
+class CommentLikeReply(models.Model):
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment = models.ForeignKey(CommentReply, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_liked = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name: str = 'Comment Like Reply'
+        verbose_name_plural = 'Comment Like Replies'
         unique_together = (('user', 'comment'),)
         ordering = ['created_at']
 

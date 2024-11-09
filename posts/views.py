@@ -171,7 +171,7 @@ class CommentUpdateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CommentRetrieveView(APIView):
+class CommentReplyView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, comment_pk):
         comment = Post.objects.get(pk=comment_pk)
@@ -184,12 +184,8 @@ class CommentListView(APIView):
     def get(self, request, comment_pk):
         comment = Post.objects.get(pk=comment_pk)
         serializer = CommentSerializer(comment, many=True)
-    #     return Response(serializer.data)
-    # if serializer.is_valid(raise_exception=True):
-    #     serializer = CommentSerializer(serializer.data, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    # else:
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data)
+
 
 class LikeView(APIView):
     permission_classes = [IsAuthenticated]

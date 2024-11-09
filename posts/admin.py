@@ -12,7 +12,7 @@ class PostFileInlineAdmin(admin.StackedInline):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'content', 'user')
-    list_filter = ('author', 'date')
+    list_filter = ('user', 'date')
     date_hierarchy = 'date'
     search_fields = ['title']
     prepopulated_fields = {'slug': ('title',)}
@@ -21,12 +21,3 @@ class PostAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
-# @admin.register(PostFile)
-# class PostFileAdmin(admin.ModelAdmin):
-#     list_display = ('title','author','date','content')
-#     list_filter = ('author','date')
-#     date_hierarchy = 'date'
-#     search_fields = ['title']
-#     prepopulated_fields = {'slug': ('title',)}
-#     def has_add_permission(self, request):
-#         return False
