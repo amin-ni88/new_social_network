@@ -1,9 +1,9 @@
 from datetime import timedelta
 from pathlib import Path
 
-# from django_filters.conf import settings
-
 from .local_setting import *
+
+# from django_filters.conf import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,10 +30,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # 'modeltranslation',
-    'account',
+    # 'account',
     # 'import_export',
-    'countries_states_cities'
-    'Posts'
+    # 'countries_states_cities'
+    # 'Posts'
 ]
 
 MIDDLEWARE = [
