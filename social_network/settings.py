@@ -28,12 +28,12 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
-
     # 'modeltranslation',
-    # 'account',
     # 'import_export',
-    # 'countries_states_cities'
-    # 'Posts'
+    # 'countries_states_cities',
+    'account',
+    'posts',
+    'friendship',
 ]
 
 MIDDLEWARE = [
