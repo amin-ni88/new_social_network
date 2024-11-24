@@ -5,12 +5,18 @@ User = get_user_model()
 
 
 class UserListSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id', 'username', 'avatar')
         read_only_fields = ('date_joined', 'last_login')
         write_only_fields = ('date_joined', 'last_login')
         depth = 1
         depth_first = True
         depth_limit = None
         depth_order = None
+
+    def get_avatar(self, instance):
+        if hasattr(instance, 'profile') and instance.profile.avatar:
+            return instance.profile.avatar.url
+        return None

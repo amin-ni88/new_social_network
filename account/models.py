@@ -59,7 +59,7 @@ class Profile(models.Model):
     country = models.ForeignKey(to=Country, blank=True, null=True, on_delete=models.CASCADE, related_name='+')
     state = models.ForeignKey(to=State, blank=True, null=True, on_delete=models.CASCADE, related_name='+')
     city = models.ForeignKey(to=City, blank=True, null=True, on_delete=models.CASCADE, related_name='+')
-    avatar = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True, upload_to='profile_avatars/')
 
 
 class Email(models.Model):
