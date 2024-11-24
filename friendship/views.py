@@ -15,7 +15,11 @@ class UserListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        users = User.objects.filter(is_active=True,
+        q = request.query_params.get('q')
+        if q:
+            users = User.objects.filter(Q(first_name__icontains=q))
+        else:
+            users = User.objects.filter(is_active=True,
                                     is_verified=True,
                                     is_superuser=False,
                                     is_staff=False)
