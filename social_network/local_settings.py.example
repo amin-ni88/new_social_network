@@ -1,0 +1,11 @@
+DEBUG = True
+DEVEL = False
+ALLOWED_HOSTS = ['*']
+
+DB_NAME = 'social_network'
+DB_HOST = 'db'
+DB_USER = 'social_network_user'
+DB_PASS = 'social_network_pass'
+
+BASE_URL = 'http://127.0.0.1/'
+

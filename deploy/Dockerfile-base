@@ -1,0 +1,4 @@
+FROM social-network-req
+ADD . /app
+WORKDIR /app
+COPY social_network/local_settings.py /app/social_network/local_settings.py
